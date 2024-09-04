@@ -1,6 +1,7 @@
 #include <iostream>
-#include <stdlib.h>
 #include <locale.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -9,39 +10,56 @@ float calcular(float num1, float num2, char operador);
 int main() {
 	setlocale(LC_ALL, "pt-BR");
 
-	cout << "========= Bem vindo à calculadora =========\n\n";
-	cout << " - número" << endl;
-	cout << " - operador" << endl;
-	cout << " - número" << endl;
+	printf("========= Bem vindo à calculadora =========\n\n");
+	printf("Digite a expressão (ex: 5 + 3)");
 
-	start:
-	float number1;
-	float number2;
-	char operador;
+	while (true) {
+		float number1, number2;
+		char operador, resposta;
 
-	cin >> number1;
-	cin >> operador;
-	cin >> number2;
-	system("cls");
-	cout << number1 << " " << operador << " " << number2 << " = " << calcular(number1, number2, operador) << endl;
-	goto start;
+		scanf("%f %c %f", &number1, &operador, &number2);
+		system("cls");
+		printf("%f %c %f = %f\n", number1, operador, number2, calcular(number1, number2, operador));
+
+		printf("Deseja realizar mais operações? (s/n): ");
+		cin >> resposta;
+
+		if (resposta == 's') {
+			continue;
+		}
+		else {
+			break;
+		}
+
+	}
 }
 
 float calcular(float num1, float num2, char operador) {
-	if (operador == '+') {
+	switch (operador)
+	{
+	case '+':
 		return num1 + num2;
-	}
-	else if (operador == '-') {
+		break;
+
+	case '-':
 		return num1 - num2;
-	}
-	else if (operador == '*' || operador == 'x') {
+
+	case '*':
+	case 'x':
+	case 'X':
+	case '.':
 		return num1 * num2;
-	}
-	else if (operador == '/' || operador == ':') {
-		return num1 / num2;
-	}
-	else {
-		cout << "Operador inválido" << endl;
+		break;
+
+	case '/':
+	case ':':
+		if (num2 != 0) return num1 / num2;
+		else {
+			printf("Erro: divisão por 0");
+		}
+		break;
+	default:
+		printf("Operador inválido");
 		return 0;
 	}
 
